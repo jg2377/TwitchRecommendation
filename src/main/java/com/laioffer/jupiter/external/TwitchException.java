@@ -7,3 +7,4 @@ public class TwitchException extends RuntimeException {
         super(errorMessage);
     }
 }
+
