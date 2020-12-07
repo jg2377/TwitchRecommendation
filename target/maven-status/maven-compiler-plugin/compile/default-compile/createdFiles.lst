@@ -1,2 +1,9 @@
-com/laioffer/jupiter/entity/Game$Builder.class
+com/laioffer/jupiter/entity/LoginRequestBody.class
+com/laioffer/jupiter/entity/LoginResponseBody.class
+com/laioffer/jupiter/entity/RegisterRequestBody.class
+com/laioffer/jupiter/servlet/LoginServlet.class
 com/laioffer/jupiter/entity/Game$1.class
+com/laioffer/jupiter/servlet/ServletUtil.class
+com/laioffer/jupiter/servlet/LogoutServlet.class
+com/laioffer/jupiter/servlet/RegisterServlet.class
+com/laioffer/jupiter/entity/Game$Builder.class

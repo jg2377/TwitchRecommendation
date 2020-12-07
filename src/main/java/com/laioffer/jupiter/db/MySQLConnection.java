@@ -46,6 +46,7 @@ public class MySQLConnection {
             throw new MySQLException("Failed to connect to Database");
         }
         saveItem(item);
+        //Insert userid and itemid favorite table, maybe insert item into item table?
         String sql = "INSERT IGNORE INTO favorite_records (user_id, item_id) VALUES (?, ?)";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -178,6 +179,48 @@ public class MySQLConnection {
         return itemMap;
     }
 
+    public String verifyLogin(String userId, String password) throws MySQLException {
+        if (conn == null) {
+            System.err.println("DB connection failed");
+            throw new MySQLException("Failed to connect to Database");
+        }
+        String name = "";
+        String sql = "SELECT first_name, last_name FROM users WHERE id = ? AND password = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, userId);
+            statement.setString(2, password);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                name = rs.getString("first_name") + " " + rs.getString("last_name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new MySQLException("Failed to verify user id and password from Database");
+        }
+        return name;
+    }
+
+    public boolean addUser(String userId, String password, String firstname, String lastname) throws MySQLException {
+        if (conn == null) {
+            System.err.println("DB connection failed");
+            throw new MySQLException("Failed to connect to Database");
+        }
+
+        String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?)";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, userId);
+            statement.setString(2, password);
+            statement.setString(3, firstname);
+            statement.setString(4, lastname);
+
+            return statement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new MySQLException("Failed to get user information from Database");
+        }
+    }
 
 }
 
