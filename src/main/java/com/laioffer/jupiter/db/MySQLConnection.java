@@ -1,21 +1,12 @@
 package com.laioffer.jupiter.db;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import com.laioffer.jupiter.entity.Item;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.laioffer.jupiter.entity.Item;
 import com.laioffer.jupiter.entity.ItemType;
+import com.laioffer.jupiter.entity.User;
+import com.mysql.cj.jdbc.Driver;
 
+import java.sql.*;
+import java.util.*;
 
 public class MySQLConnection {
     private final Connection conn;
@@ -46,7 +37,6 @@ public class MySQLConnection {
             throw new MySQLException("Failed to connect to Database");
         }
         saveItem(item);
-        //Insert userid and itemid favorite table, maybe insert item into item table?
         String sql = "INSERT IGNORE INTO favorite_records (user_id, item_id) VALUES (?, ?)";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -103,22 +93,21 @@ public class MySQLConnection {
             System.err.println("DB connection failed");
             throw new MySQLException("Failed to connect to Database");
         }
-
         Set<String> favoriteItems = new HashSet<>();
         String sql = "SELECT item_id FROM favorite_records WHERE user_id = ?";
+        Set<String> favoriteItemIds = new HashSet<>();
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, userId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 String itemId = rs.getString("item_id");
-                favoriteItems.add(itemId);
+                favoriteItemIds.add(itemId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new MySQLException("Failed to get favorite item ids from Database");
         }
-
         return favoriteItems;
     }
 
@@ -201,7 +190,7 @@ public class MySQLConnection {
         return name;
     }
 
-    public boolean addUser(String userId, String password, String firstname, String lastname) throws MySQLException {
+    public boolean addUser(User user) throws MySQLException {
         if (conn == null) {
             System.err.println("DB connection failed");
             throw new MySQLException("Failed to connect to Database");
@@ -210,10 +199,10 @@ public class MySQLConnection {
         String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, userId);
-            statement.setString(2, password);
-            statement.setString(3, firstname);
-            statement.setString(4, lastname);
+            statement.setString(1, user.getUserId());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getFirstName());
+            statement.setString(4, user.getLastName());
 
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -221,6 +210,4 @@ public class MySQLConnection {
             throw new MySQLException("Failed to get user information from Database");
         }
     }
-
 }
-

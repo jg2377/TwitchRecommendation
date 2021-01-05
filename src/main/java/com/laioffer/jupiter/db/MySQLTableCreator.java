@@ -4,16 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-
 public class MySQLTableCreator {
-
     // Run this as a Java application to reset the database.
     public static void main(String[] args) {
         try {
-
             // Step 1 Connect to MySQL.
             System.out.println("Connecting to " + MySQLDBUtil.getMySQLAddress());
-            //newInstance() was depreciated since java version > 8
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             Connection conn = DriverManager.getConnection(MySQLDBUtil.getMySQLAddress());
 
@@ -22,7 +18,6 @@ public class MySQLTableCreator {
             }
 
             // Step 2 Drop tables in case they exist.
-            //since we need to reset the database, then create a new one on step 3
             Statement statement = conn.createStatement();
             String sql = "DROP TABLE IF EXISTS favorite_records";
             statement.executeUpdate(sql);
@@ -65,12 +60,9 @@ public class MySQLTableCreator {
                     + ")";
             statement.executeUpdate(sql);
 
-
             // Step 4: insert fake user 1111/3229c1097c00d497a0fd282d586be050.
             sql = "INSERT INTO users VALUES('1111', '3229c1097c00d497a0fd282d586be050', 'John', 'Smith')";
             statement.executeUpdate(sql);
-
-
 
             conn.close();
             System.out.println("Import done successfully");

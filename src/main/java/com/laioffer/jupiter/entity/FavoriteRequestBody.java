@@ -1,7 +1,7 @@
 package com.laioffer.jupiter.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FavoriteRequestBody {
     private final Item favoriteItem;

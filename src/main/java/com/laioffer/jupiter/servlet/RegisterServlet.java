@@ -3,7 +3,7 @@ package com.laioffer.jupiter.servlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laioffer.jupiter.db.MySQLConnection;
 import com.laioffer.jupiter.db.MySQLException;
-import com.laioffer.jupiter.entity.RegisterRequestBody;
+import com.laioffer.jupiter.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,30 +14,34 @@ import java.io.IOException;
 
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
 public class RegisterServlet extends HttpServlet {
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        RegisterRequestBody body = mapper.readValue(request.getReader(), RegisterRequestBody.class);
-        if (body == null) {
+        User user = ServletUtil.readRequestBody(User.class, request);
+        if (user == null || user.getUserId().isEmpty() || user.getPassword().isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
         boolean isUserAdded = false;
+
         MySQLConnection connection = null;
         try {
             connection = new MySQLConnection();
-            String password = ServletUtil.encryptPassword(body.getUserId(), body.getPassword());
-            isUserAdded = connection.addUser(body.getUserId(), password, body.getFirstName(), body.getLastName());
-            connection.close();
-        } catch (MySQLException e) {
-            e.printStackTrace();
-        } finally {
-            connection.close();
-        }
 
+            user.setPassword(ServletUtil.encryptPassword(user.getUserId(), user.getPassword()));
+            isUserAdded = connection.addUser(user);
+        } catch (MySQLException e) {
+            throw new ServletException(e);
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
         if (!isUserAdded) {
             response.setStatus(HttpServletResponse.SC_CONFLICT);
         }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 }

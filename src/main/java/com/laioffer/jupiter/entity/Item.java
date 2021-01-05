@@ -110,8 +110,6 @@ public class Item {
         @JsonProperty("thumbnail_url")
         private String thumbnailUrl;
 
-//{ "user_name" }是一个花括号，说明可以接受多个，是一个set
-
         @JsonProperty("broadcaster_name")
         @JsonAlias({ "user_name" })
         private String broadcasterName;

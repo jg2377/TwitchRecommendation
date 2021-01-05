@@ -5,4 +5,3 @@ public class MySQLException extends RuntimeException {
         super(errorMessage);
     }
 }
-

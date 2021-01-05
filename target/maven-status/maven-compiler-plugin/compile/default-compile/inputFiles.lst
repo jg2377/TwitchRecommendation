@@ -1,4 +1,6 @@
+/Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/servlet/LogoutServlet.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/db/MySQLDBUtil.java
+/Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/servlet/RegisterServlet.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/entity/FavoriteRequestBody.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/entity/ItemType.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/servlet/SearchServlet.java
@@ -6,8 +8,16 @@
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/db/MySQLConnection.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/db/MySQLException.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/external/TwitchClient.java
+/Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/servlet/LoginServlet.java
+/Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/entity/LoginRequestBody.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/external/TwitchException.java
+/Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/servlet/RecommendationServlet.java
+/Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/entity/User.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/db/MySQLTableCreator.java
+/Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/servlet/ServletUtil.java
+/Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/recommendation/RecommendationException.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/servlet/GameServlet.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/servlet/FavoriteServlet.java
 /Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/entity/Game.java
+/Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/entity/LoginResponseBody.java
+/Users/jiayi/IdeaProjects/jupiter/src/main/java/com/laioffer/jupiter/recommendation/ItemRecommender.java

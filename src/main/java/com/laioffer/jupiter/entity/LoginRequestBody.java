@@ -1,3 +1,4 @@
+
 package com.laioffer.jupiter.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,7 +9,10 @@ public class LoginRequestBody {
     private final String password;
 
     @JsonCreator
-    public LoginRequestBody(@JsonProperty("user_id") String userId, @JsonProperty("password") String password) {
+    public LoginRequestBody(
+            @JsonProperty("user_id") String userId,
+            @JsonProperty("password") String password)
+    {
         this.userId = userId;
         this.password = password;
     }

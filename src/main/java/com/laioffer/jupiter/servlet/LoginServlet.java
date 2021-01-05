@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laioffer.jupiter.db.MySQLConnection;
 import com.laioffer.jupiter.db.MySQLException;
 import com.laioffer.jupiter.entity.LoginRequestBody;
-import com.laioffer.jupiter.entity.LoginResponseBody;
+import com.laioffer.jupiter.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,12 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
+@WebServlet(name = "LoginServlet",  urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        LoginRequestBody body = mapper.readValue(request.getReader(), LoginRequestBody.class);
+        LoginRequestBody body = ServletUtil.readRequestBody(LoginRequestBody.class, request);
         if (body == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
@@ -35,18 +33,28 @@ public class LoginServlet extends HttpServlet {
         } catch (MySQLException e) {
             throw new ServletException(e);
         } finally {
-            connection.close();
+            if (connection != null) {
+                connection.close();
+            }
         }
 
         if (!username.isEmpty()) {
+
             HttpSession session = request.getSession();
             session.setAttribute("user_id", body.getUserId());
+            session.setMaxInactiveInterval(600);
+            LoginRequestBody loginRequestBody = new LoginRequestBody(body.getUserId(), username);
 
-            LoginResponseBody loginResponseBody = new LoginResponseBody(body.getUserId(), username);
             response.setContentType("application/json;charset=UTF-8");
-            mapper.writeValue(response.getWriter(), loginResponseBody);
+            ObjectMapper mapper = new ObjectMapper();
+//            response.getWriter().print(new ObjectMapper().writeValueAsString(loginRequestBody));
+            mapper.writeValue(response.getWriter(), loginRequestBody);
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 }
